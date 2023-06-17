@@ -149,6 +149,7 @@ router.post(
   "/contacto",
   [
     body("desarrollo").not().isEmpty(),
+    body("correo").not().isEmpty(),
     body("usr").not().isEmpty()
   ],
   (req, res) => {
@@ -215,13 +216,15 @@ async function sendMail2(data) {
   // send mail with defined transport object
   let info = await transporter.sendMail({
     from: '"AirBnV" <al289539@edu.uaa.mx>', // sender address
-    to: data.usr.email, // list of receivers
+    to: data.correo, // list of receivers
     subject: "Gracias por ponerse en contacto con nosotros", // Subject line
     text: "Gracias por su preferencia", // plain text body
     html: `
-          <h2>Se recibió su mensaje, en la brevedad nos pondremos en contacto con usted</h2>
+          <h2>Se recibió su mensaje ${data.usr}, en la brevedad nos pondremos en contacto con usted</h2>
           <br>
-          <b>${data.desarrollo}</span></b>
+          <h3>se recibió la siguiente sugerencia:</h3>
+          <br>
+          <b>${data.desarrollo}</b>
           <br>
           
           `, // html body
